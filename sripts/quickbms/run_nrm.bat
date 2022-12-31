@@ -1,0 +1,1 @@
+F:\git\qbms\quickbms.exe -K -d -e -Y -F "*.nrm" unpack_nrm.bms "F:\git\heath\sripts\quickbms" unpacked

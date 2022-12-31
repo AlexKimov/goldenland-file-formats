@@ -1,0 +1,79 @@
+# 
+# 
+
+IDString "PakkaByRCL^DPL2000"
+
+get FSIZE asize
+set POS long 0
+
+do
+    getdstring FOURCC 5
+    get SIZE long
+    
+    if SIZE != 0
+        get SIZE_UNCOMPRESSED long
+        get LENGTH long    
+        getdstring FNAME LENGTH
+        SavePos OFFSET     
+        XMath FILE_SIZE "SIZE - LENGTH"        
+        XMath POS "OFFSET + FILE_SIZE"   
+        GOTO POS
+        
+        CallFunction EXTRACT FNAME OFFSET FILE_SIZE SIZE_UNCOMPRESSED
+    else 
+        get SIZE_UNCOMPRESSED long
+        get LENGTH long 
+        Math POS += 17
+    endIf     
+while POS < FSIZE
+
+startfunction EXTRACT FNAME OFFSET FILE_SIZE SIZE_UNCOMPRESSED
+    # some vars
+    
+    Set CURRENT_POS long 0 # current position in input buffer
+    Set CURRENT_POS2 long 0 # current position in output buffer
+
+    # set buffers
+    log MEMORY_FILE OFFSET FILE_SIZE  # set input buffer
+    log MEMORY_FILE2 0 0  # set output buffer   
+  
+    do
+        GetVarChr B MEMORY_FILE CURRENT_POS byte
+        Math CURRENT_POS += 1 
+            
+        if B == 0x69 // rle compressed data, >= 4 bytes
+            GetVarChr CODE MEMORY_FILE CURRENT_POS byte
+            XMath POS "CURRENT_POS + 1"
+            GetVarChr LENGTH MEMORY_FILE POS short           
+            Math CURRENT_POS += 3
+            
+            if LENGTH != 0
+                XMath LEN "LENGTH >> 2"               
+                XMath VALUE "CODE | (CODE << 8) | (CODE << 16) | (CODE << 24)"                                                  
+                for i = 0 < LEN                 
+                    PutVarChr MEMORY_FILE2 CURRENT_POS2 VALUE long
+                    Math CURRENT_POS2 += 4                    
+                next i              
+                
+                XMath LEN "LENGTH & 3"
+                for i = 0 < LEN                   
+                    PutVarChr MEMORY_FILE2 CURRENT_POS2 CODE byte
+                    Math CURRENT_POS2 += 1   
+                next i                
+            endif
+        elif B == 0x6A //
+            GetVarChr B MEMORY_FILE CURRENT_POS byte           
+            PutVarChr MEMORY_FILE2 CURRENT_POS2 B byte       
+            Math CURRENT_POS2 += 1
+            Math CURRENT_POS += 1         
+        else // raw data
+            PutVarChr MEMORY_FILE2 CURRENT_POS2 B byte
+            Math CURRENT_POS2 += 1             
+        endif
+       
+    while CURRENT_POS < FILE_SIZE
+    
+    # PRINT %SIZE_UNCOMPRESSED%
+    # PRINT %CURRENT_POS2%
+    log FNAME 0 SIZE_UNCOMPRESSED MEMORY_FILE2   
+endfunction 
