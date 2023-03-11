@@ -8,6 +8,12 @@
 | :--- | :--------- | :----------- | :---------- |
 | 1 | .nrm        | [NRM.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
 
+    Как использовать шаблоны 010Editor
+    1. Нужен 010Editor.
+    2. Открыть нужный вам .lib файл в программе. Меню File - Open File...
+    3. Применить скрипт decodeLIB.1sc, чтобы был доступ к зашифрованной таблице с расположением файлов внутри .lib. Меню Scripts - Open Script и Run Script.
+    4. Применить шаблон LIB.bt. Меню Templates - Open Template и Run Template.
+
 **Инструменты**
 
 | № | Плагин       | Программа | Описание |  
