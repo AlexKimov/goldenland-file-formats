@@ -6,6 +6,8 @@
 
 Изображения в игре хранятся в формате [BMP](https://ru.wikipedia.org/wiki/BMP) и запакованы в игровые архивы с расширением (paxx.)nrm.
 
+![Attack!](attack1.gif)
+
  № | Формат файла       | Шаблон (010Editor)     |    Описание |
 | :--- | :--------- | :----------- | :---------- |
 | 1 | .nrm        | [NRM.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
