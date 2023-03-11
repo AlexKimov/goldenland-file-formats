@@ -21,7 +21,7 @@
 
 | № | Плагин       | Программа | Описание |  
 | :--- | :--------- | :----------- | :---- | 
-| 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/blob/master/scripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 |
+| 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/blob/master/sripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 |
 
     Как использовать
     1. Нужен quickbms https://aluigi.altervista.org/quickbms.htm
