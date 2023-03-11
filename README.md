@@ -11,8 +11,7 @@
     Как использовать шаблоны 010Editor
     1. Нужен 010Editor.
     2. Открыть нужный вам .nrm файл в программе. Меню File - Open File...
-    3. Применить скрипт decodeLIB.1sc, чтобы был доступ к зашифрованной таблице с расположением файлов внутри .nrm. Меню Scripts - Open Script и Run Script.
-    4. Применить шаблон NRM.bt. Меню Templates - Open Template и Run Template.
+    3. Применить шаблон NRM.bt. Меню Templates - Open Template и Run Template.
 
 **Инструменты**
 
