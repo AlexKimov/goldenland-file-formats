@@ -6,7 +6,7 @@
 
 Изображения в игре хранятся в формате [BMP](https://ru.wikipedia.org/wiki/BMP) и запакованы в игровые архивы с расширением (paxx.)nrm.
 
-![Attack!](attack1.gif)
+![Attack!](attack1.gif)![Attack2!](attack2.gif)
 
  № | Формат файла       | Шаблон (010Editor)     |    Описание |
 | :--- | :--------- | :----------- | :---------- |
