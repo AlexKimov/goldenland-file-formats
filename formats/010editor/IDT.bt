@@ -1,0 +1,86 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+while (!FEof())
+  struct {
+    BYTE Q[20];
+    UINT16 Unknown;
+    UINT16 Unknown;
+
+    DOUBLE Weight;
+
+    UINT16 Power;
+    UINT16 Price;
+    UINT16 Unknown;
+    UINT16 Unknown;
+
+    if (Power == 0)
+    {
+      UINT16 Unknown;    
+      UINT16 Unknown;
+      UINT16 Health;
+
+      UINT16 Energy;
+      UINT16 L;
+      UINT16 Unknown;
+      UINT16 Unknown;
+      UINT16 Unknown;
+
+      UINT16 Length;
+      CHAR Name[Length];
+   
+      USHORT Count;
+      struct {
+        FLOAT Unknown;
+        FLOAT Unknown;
+        FLOAT Unknown;
+        FLOAT Unknown;
+      } UU[Count];
+    } else
+    {
+  
+      UINT16 Damage;
+      UINT16 Accuracy;
+      UINT16 L;
+      UINT16 Unknown;
+
+      if (L != 52685) 
+      {
+        UINT16 Unknown;
+        UINT16 Unknown;
+        UINT16 Unknown;
+        UINT16 Unknown;
+     
+        if ((L == 0))
+        {
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+        }
+      };
+
+      UINT16 Length;
+      CHAR Name[Length];
+    }
+
+    struct {
+      UINT Color[256];
+    } PALLETE;
+
+    struct {
+      USHORT Size;
+      BYTE TransparencyColor;
+      UBYTE Index[Size]; // 83*85= 7055
+    } IMAGE;
+} SPRITE;

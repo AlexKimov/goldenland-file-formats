@@ -1,0 +1,55 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+LittleEndian();
+
+UINT16 TileNumHeight;
+UINT16 TileNumWidth;
+UINT Unk;
+UINT16 BackgroundTexturesNum;
+UINT16 SpNum1;
+UINT16 SpNum2;
+UINT16 UnkNum;
+UINT16 TileNumber;
+
+BYTE Reserved[18];
+
+typedef struct  {
+  UINT16 SpriteIndex;
+  UINT16 Un;
+} BACKGROUND_SPRITE;
+
+typedef struct  {
+  UINT16 SpriteIndex;
+  INT16 XOffset;
+  INT16 YOffset;
+  UBYTE XTileIndex;
+  UBYTE YTileIndex;
+} FOREGROUND_SPRITE;
+
+typedef struct {
+  UINT Parammeters;
+  UINT XIndex;
+  UINT YIndex;
+} TILE_PARAMMETERS;
+
+BACKGROUND_SPRITE BSprite[BackgroundTexturesNum];
+
+FOREGROUND_SPRITE FSprite1[SpNum1];
+FOREGROUND_SPRITE FSprite2[SpNum2];
+
+struct {
+  BYTE Data[136];
+} U[UnkNum];
+
+TILE_PARAMMETERS Tile[TileNumber];
