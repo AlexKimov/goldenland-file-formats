@@ -14,7 +14,9 @@
 
 ![Attack!](attack1.gif)![Attack2!](attack2.gif)![move1!](move1.gif)
 
-Объекты локации, например, здания, в также некоторые локации карты сделаны в виде отдельного изображения. 
+Объекты локации, например, здания, в также некоторые локации карты сделаны в виде отдельного изображения поверх фона. 
+
+![Gates](gates.jpg)
 
 ### Скрипты
 
@@ -32,6 +34,8 @@
  № | Формат файла       | Шаблон (010Editor)     |    Описание |
 | :--- | :--------- | :----------- | :---------- |
 | 1 | .nrm        | [NRM.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
+| 1 | .idt        | [IDT.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/IDT.bt)  |  Предметы инвентаря и их параметры |
+| 1 | .map       | [MAP.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/MAP.bt)  | Локация и объекты на ней |
 
     Как использовать шаблоны 010Editor
     1. Нужен 010Editor.
