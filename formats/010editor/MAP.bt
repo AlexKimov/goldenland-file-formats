@@ -44,7 +44,6 @@ typedef struct {
 } TILE_PARAMMETERS;
 
 BACKGROUND_SPRITE BSprite[BackgroundTexturesNum];
-
 FOREGROUND_SPRITE FSprite1[SpNum1];
 FOREGROUND_SPRITE FSprite2[SpNum2];
 
