@@ -1,0 +1,40 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uint xoffset = 37;
+local uint yoffset = 21;
+local uint colCount = 48;
+local uint rowCount = 72;
+local uint imageWidth = 64;
+local uint imageWidth1 = 128;
+local uint size = 6912;
+local uint line, offset;
+local uint count = 48;
+
+local char buffer[10000] = {0};
+local char out[40000] = {0};
+
+local uint i;
+
+local uint offs = yoffset * imageWidth1 * 2;
+
+for (i = 0; i < rowCount; ++i)
+{
+    line = count * 2;
+    ReadBytes(buffer, FTell(), line);
+    offset = (i*imageWidth1 + xoffset)*2 + offs;
+    //Printf("%d ", offset);
+    Memcpy(out, buffer, line, offset, 0);
+    FSkip(line);
+}
+
+FileNew();
+WriteBytes(out, 0, imageWidth1*imageWidth1*2);
