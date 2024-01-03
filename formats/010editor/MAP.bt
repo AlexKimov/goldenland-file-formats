@@ -20,17 +20,21 @@ UINT16 BackgroundTexturesNum;
 UINT16 SpNum1;
 UINT16 SpNum2;
 UINT16 UnkNum;
-UINT16 TileNumber;
+UINT TileNumber;
 
-BYTE Reserved[18];
+UINT UnknownBool;
+UINT UnknownParam;
+BYTE Data[8];
 
 typedef struct  {
-  UINT16 SpriteIndex;
-  UINT16 Un;
+  UINT16 GroupIndex;
+  UINT16 TexIndex;
 } BACKGROUND_SPRITE;
 
 typedef struct  {
-  UINT16 SpriteIndex;
+  UBYTE GroupIndex;
+
+  UBYTE SpriteIndex;
   INT16 XOffset;
   INT16 YOffset;
   UBYTE XTileIndex;
@@ -44,11 +48,17 @@ typedef struct {
 } TILE_PARAMMETERS;
 
 BACKGROUND_SPRITE BSprite[BackgroundTexturesNum];
-FOREGROUND_SPRITE FSprite1[SpNum1];
-FOREGROUND_SPRITE FSprite2[SpNum2];
+FOREGROUND_SPRITE Pictures[SpNum1];
+FOREGROUND_SPRITE Environment[SpNum2];
 
 struct {
   BYTE Data[136];
 } U[UnkNum];
 
 TILE_PARAMMETERS Tile[TileNumber];
+
+if (UnknownBool)
+{
+  UINT Unknown1;
+  UINT Unknown2;
+}
