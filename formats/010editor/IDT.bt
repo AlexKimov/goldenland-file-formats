@@ -11,76 +11,263 @@
 //   History: 
 //------------------------------------------------
 
+local string filename = FileNameGetBase(GetFileName());
+Printf(filename);
+
 while (!FEof())
-  struct {
-    BYTE Q[20];
-    UINT16 Unknown;
-    UINT16 Unknown;
-
-    DOUBLE Weight;
-
-    UINT16 Power;
-    UINT16 Price;
-    UINT16 Unknown;
-    UINT16 Unknown;
-
-    if (Power == 0)
-    {
-      UINT16 Unknown;    
-      UINT16 Unknown;
-      UINT16 Health;
-
-      UINT16 Energy;
-      UINT16 L;
-      UINT16 Unknown;
-      UINT16 Unknown;
-      UINT16 Unknown;
-
-      UINT16 Length;
-      CHAR Name[Length];
-   
-      USHORT Count;
+{
+  switch (filename)
+  {
+    case "rolls.itd":
       struct {
-        FLOAT Unknown;
-        FLOAT Unknown;
-        FLOAT Unknown;
-        FLOAT Unknown;
-      } UU[Count];
-    } else
-    {
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+
+          UINT Unknown;
+
+          UINT16 Unknown;
+
+          UINT Unknown;
+          UINT Unknown;
+          UINT Energy;
+          UINT L;
+          UINT16 Unknown;
+
+          UINT Length;
+          UINT16 Length;
+          CHAR Name[Length];
+   
+          USHORT Count;
+          struct {
+            UINT Unknown;
+            UINT Unknown;
+            UINT Unknown;
+            FLOAT Unknown;
+          } YQ[Count];
+        } TP;
+
+        struct {
+          UINT Color[256];
+        } PALLETE;
+
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } ROLL;   
+    break;
+
+    case "amulets.itd":
+    case "potions.itd":
+      struct {
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+
+          UINT Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT Unknown;
+          UINT Unknown;
+          UINT Unknown;
+
+          UINT16 Length;
+          CHAR Name[Length];
+   
+          USHORT Count;
+          struct {
+            UINT Unknown;
+            UINT Unknown;
+            UINT Unknown;
+            FLOAT Unknown;
+          } YQ[Count];
+        } TP;
+
+        struct {
+          UINT Color[256];
+        } PALLETE;
+
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } POTIONS;         
+    break;
+
+    case "quests.itd":
+      struct {
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+
+          UINT Unknown;
+
+          UINT Unknown;
+          UINT Unknown;
+
+          UINT16 Length;
+          CHAR Name[Length];
+
+          USHORT Count;
+          struct {
+            UINT Unknown;
+            UINT Unknown;
+            UINT Unknown;
+            FLOAT Unknown;
+          } YQ[Count];    
+        } TY;
+
+         struct {
+          UINT Color[256];
+        } PALLETE;
+
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } QUESTS;    
+    break;
+
+    case "elbarms.itd":
+      struct {
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+
+          UINT Unknown;
+          UINT16 Unknown00;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+         
+
+          UINT16 Length;
+          CHAR Name[Length];
+        } TY;
+
+        struct {
+          UINT Color[256];
+        } PALLETE;
+
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } PROTECTORS;         
+    break;
+
+    case "axes.itd":
+    case "bows.itd":
+    case "helmets.itd":
+    case "hits.itd":
+    case "panoplys.itd":
+    case "protectors.itd":
+      struct {
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+
+          UINT Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown00;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT Unknown;
+
+          UINT16 Length;
+          CHAR Name[Length];
+        } TY;
+
+        struct {
+          UINT Color[256];
+        } PALLETE;
+
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } PROTECTORS;         
+    break;
+
+    default:  
+      struct { 
+        struct {
+          BYTE Q[20];
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          DOUBLE Weight;
+
+          UINT16 Power;
+          UINT16 Price;
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          UINT16 Unknown;    
+          UINT16 Unknown;           
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Health;
+          UINT16 Unknown;
+          UINT16 Energy;
+          UINT16 L;
+          UINT16 Unknown;
+          UINT16 Unknown;
+          UINT16 Unknown;
+
+          UINT16 Length;
+          CHAR Name[Length];
+        } IOO;
   
-      UINT16 Damage;
-      UINT16 Accuracy;
-      UINT16 L;
-      UINT16 Unknown;
+        struct {
+          UINT Color[256];
+        } PALLETE;
 
-      if (L != 52685) 
-      {
-        UINT16 Unknown;
-        UINT16 Unknown;
-        UINT16 Unknown;
-        UINT16 Unknown;
-     
-        if ((L == 0))
-        {
-          UINT16 Unknown;
-          UINT16 Unknown;
-          UINT16 Unknown;
-          UINT16 Unknown;
-        }
-      };
-
-      UINT16 Length;
-      CHAR Name[Length];
-    }
-
-    struct {
-      UINT Color[256];
-    } PALLETE;
-
-    struct {
-      USHORT Size;
-      BYTE TransparencyColor;
-      UBYTE Index[Size]; // 83*85= 7055
-    } IMAGE;
-} SPRITE;
+        struct {
+          USHORT Size;
+          BYTE TransparencyColor;
+          UBYTE Index[Size]; // 83*85= 7055
+        } IMAGE;
+      } SPRITE;
+  };
+};
