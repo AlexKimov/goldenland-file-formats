@@ -71,7 +71,7 @@
 | :--- | :--------- | :----------- | :---- | 
 | 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/blob/master/sripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 | 
 | 2 | [fmt_heath_nrm.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_nrm.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
-| 2 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
+| 2 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Просмотр изображений из файлов .itd  Златогорье 1 |
 
     Как использовать quickbms скрипты
     1. Нужен quickbms https://aluigi.altervista.org/quickbms.htm
