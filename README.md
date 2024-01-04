@@ -10,7 +10,7 @@
    
 ### Графика
 
-В игре **Златогорье (2001)** используется классическая для 90х-2000х годов двухмерная [изометрическая графика](https://ru.wikipedia.org/wiki/%D0%98%D0%B7%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0_%D0%B2_%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D1%85_%D0%B8%D0%B3%D1%80%D0%B0%D1%85) на основе изображений, полученных из трехмерных моделей. Большая часть изображений в игре в формате [8 бит](https://ru.wikipedia.org/wiki/8_%D0%B1%D0%B8%D1%82_(%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0)). Для хранения графики используются форматы: [bmp](https://ru.wikipedia.org/wiki/BMP), [jpeg](https://ru.wikipedia.org/wiki/JPEG) и собственный формат **idt**. Первый применяется для персонажей, текстур локаций, строений, меню игры, второй для файлов загрузочного экрана. 
+В игре **Златогорье (2001)** используется классическая для 90х-2000х годов двухмерная [изометрическая графика](https://ru.wikipedia.org/wiki/%D0%98%D0%B7%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0_%D0%B2_%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D1%85_%D0%B8%D0%B3%D1%80%D0%B0%D1%85) на основе изображений, полученных из трехмерных моделей. Большая часть изображений в игре в формате [8 бит](https://ru.wikipedia.org/wiki/8_%D0%B1%D0%B8%D1%82_(%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0)). Для хранения графики используются форматы: [bmp](https://ru.wikipedia.org/wiki/BMP), [jpeg](https://ru.wikipedia.org/wiki/JPEG) и собственный формат **itd**. Первый применяется для персонажей, текстур локаций, строений, меню игры, второй для файлов загрузочного экрана. 
 
 Анимация персонажей сделана на основе [спрайтов](https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D1%80%D0%B0%D0%B9%D1%82_(%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D0%B0%D1%8F_%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D0%B0)). В отдельных файлах на каждого персонажа, противника или неигрового персонажа хранятся кадры движения по 8 кадров на одну анимацию (бег, атака, неподвижнок состояние и т.д.) в 8 различных направлениях, аналогичным образом сделаны тени. Размер одного кадра спрайта персонажа игрока 125x125 пикселей и до 220x220 пикселей для управляемых компьютером. При отрисовке персонажа его изображение и тень совмещаются в единую анимацию.
 
@@ -22,7 +22,7 @@
 
 #### Параметры
 
-Файлы **idt** хранят параметры предметов инвентаря героя и изображения этих предметов.
+Файлы **itd** хранят параметры предметов инвентаря героя и изображения этих предметов.
 
 ### Скрипты
 
@@ -57,8 +57,8 @@
  № | Формат файла       | Шаблон (010Editor)     |    Описание |
 | :--- | :--------- | :----------- | :---------- |
 | 1 | .nrm        | [NRM.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
-| 1 | .idt        | [IDT.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/IDT.bt)  |  Предметы инвентаря и их параметры |
-| 1 | .map       | [MAP.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/MAP.bt)  | Локация и объекты на ней |
+| 2 | .idt        | [IDT.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/IDT.bt)  |  Предметы инвентаря и их параметры |
+| 3 | .map       | [MAP.bt](https://github.com/AlexKimov/goldenland-file-formats/blob/master/formats/010editor/MAP.bt)  | Локация и объекты на ней |
 
     Как использовать шаблоны 010Editor
     1. Нужен 010Editor.
@@ -71,6 +71,7 @@
 | :--- | :--------- | :----------- | :---- | 
 | 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/blob/master/sripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 | 
 | 2 | [fmt_heath_nrm.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_nrm.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
+| 2 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
 
     Как использовать quickbms скрипты
     1. Нужен quickbms https://aluigi.altervista.org/quickbms.htm
