@@ -71,7 +71,8 @@
 | :--- | :--------- | :----------- | :---- | 
 | 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/blob/master/sripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 | 
 | 2 | [fmt_heath_nrm.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_nrm.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
-| 2 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Просмотр изображений из файлов .itd  Златогорье 1 |
+| 3 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Просмотр изображений из файлов .itd  Златогорье 1 |
+| 4 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/blob/main/plugins/gimp/itd.py) | Gimp | Просмотр изображений из файлов .itd  Златогорье 1 |
 
     Как использовать quickbms скрипты
     1. Нужен quickbms https://aluigi.altervista.org/quickbms.htm
@@ -83,3 +84,7 @@
     2. Скопировать скрипт в папку ПапкасNoesis/plugins/python.
     3. Открыть Noesis.
     4. Открыть файл через File-Open. 
+    
+    Как использовать gimp плагины
+    1. Поместить плагин в папку Users\"Имя текущего пользователя"\AppData\Roaming\GIMP\2.10\plug-ins
+    2. Запустить, открыть файл через меню файл-открыть.
