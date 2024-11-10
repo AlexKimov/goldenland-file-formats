@@ -56,9 +56,9 @@
 
  № | Формат файла       | Шаблон (010Editor)     |    Описание |
 | :--- | :--------- | :----------- | :---------- |
-| 1 | .nrm        | [NRM.bt](https://github.com/AlexKimov/goldenland-file-formats/tree/main/formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
-| 2 | .idt        | [IDT.bt](https://github.com/AlexKimov/goldenland-file-formats/tree/main/formats/010editor/IDT.bt)  |  Предметы инвентаря и их параметры |
-| 3 | .map       | [MAP.bt](https://github.com/AlexKimov/goldenland-file-formats/tree/main/formats/010editor/MAP.bt)  | Локация и объекты на ней |
+| 1 | .nrm        | [NRM.bt](formats/010editor/NRM.bt)  |   архив игровых ресурсов Златогорье 1 |
+| 2 | .idt        | [IDT.bt](formats/010editor/IDT.bt)  |  Предметы инвентаря и их параметры |
+| 3 | .map       | [MAP.bt](formats/010editor/MAP.bt)  | Локация и объекты на ней |
 
     Как использовать шаблоны 010Editor
     1. Нужен 010Editor.
@@ -69,10 +69,10 @@
 
 | № | Плагин       | Программа | Описание |  
 | :--- | :--------- | :----------- | :---- | 
-| 1 | [unpack_nrm.bms](https://github.com/AlexKimov/goldenland-file-formats/tree/main/scripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 | 
-| 2 | [fmt_heath_nrm.py](https://github.com/AlexKimov/goldenland-file-formats/tree/main/plugins/noesis/fmt_heath_nrm.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
-| 3 | [fmt_heath_itd.py](https://github.com/AlexKimov/goldenland-file-formats/tree/main/plugins/noesis/fmt_heath_itd.py) | Noesis | Просмотр изображений из файлов .itd  Златогорье 1 |
-| 4 | [itd.py](https://github.com/AlexKimov/goldenland-file-formats/tree/main/plugins/gimp/itd.py) | Gimp | Просмотр изображений из файлов .itd  Златогорье 1 |
+| 1 | [unpack_nrm.bms](scripts/quickbms/unpack_nrm.bms) | Quickbms | Распаковка файлов ресурсов .nrm  Златогорье 1 | 
+| 2 | [fmt_heath_nrm.py](noesis/fmt_heath_nrm.py) | Noesis | Распаковка файлов ресурсов .nrm  Златогорье 1 |
+| 3 | [fmt_heath_itd.py](noesis/fmt_heath_itd.py) | Noesis | Просмотр изображений из файлов .itd  Златогорье 1 |
+| 4 | [itd.py](/plugins/gimp/itd.py) | Gimp | Просмотр изображений из файлов .itd  Златогорье 1 | 
 
     Как использовать quickbms скрипты
     1. Нужен quickbms https://aluigi.altervista.org/quickbms.htm
