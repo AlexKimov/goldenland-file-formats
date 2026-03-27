@@ -1,0 +1,244 @@
+{
+  "anim.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": [],
+    "imageFiles": [{
+      "index": 0,
+      "subIndex": 0,
+      "description": "Animated background tiles and some other objects.",
+      "root": "anim",
+      "subdirs": null,
+      "files": [],
+      "settings": null,
+      "tileset": 0,
+      "dat": 0,
+      "parent": null
+    }],
+    "datFiles": ["anim.dat"],
+    "tilesets": [{
+      "name": "",
+      "classname": "background_animated",
+      "sprite": {
+        "fps": 24,
+        "width": 112,
+        "height": 64,
+        "count": []        
+      },
+      "transparency": true,
+      "animation": true,
+      "naming": 2
+    }]
+  },
+  "textur.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": [],
+    "imageFiles": [{
+      "index": 0,
+      "subIndex": 0,
+      "description": "Static background tiles and some other objects.",
+      "root": "textur",
+      "subdirs": null,
+      "files": [],
+      "settings": null,
+      "tileset": 0,
+      "dat": 0,
+      "parent": null
+    }],
+    "datFiles": ["textur.dat"],
+    "tilesets": [{
+      "name": "",
+      "classname": "background_static",
+      "sprite": null,
+      "transparency": true,
+      "animation": false,
+      "naming": 1
+    }]
+  },
+  "magic.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": ["magic\\magicscenes"],
+    "imageFiles": [{
+      "index": 0,
+      "subIndex": 0,
+      "description": "Animated magic.",
+      "root": "magic\\sprites",
+      "subdirs": null,
+      "files": [],
+      "settings": 0,
+      "tileset": 0,
+      "dat": null,
+      "parent": null
+    }],
+    "datFiles": [],
+    "tilesets": [{
+      "name": "",
+      "classname": "magic",
+      "sprite": {
+        "fps": 24,          
+        "width": 0,
+        "height": 0,
+        "count": []        
+      },
+      "transparency": false,
+      "animation": true,
+      "naming": 3
+    }]
+  },
+  "packer.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": [],
+    "imageFiles": [
+      {
+        "index": 0,
+        "subIndex": 0,
+        "description": "Buildings interior, exterior, environment.",
+        "root": "bitmap\\lowpicture",
+        "subdirs": [],
+        "files": [],
+        "settings": null,
+        "tileset": 0,
+        "dat": 0,
+        "parent": null
+      },
+      {
+        "index": 0,
+        "subIndex": 0,
+        "description": "Objects, trees, constructions.",
+        "root": "bitmap\\picture",
+        "subdirs": [],
+        "files": [],
+        "settings": null,
+        "tileset": 0,
+        "dat": 1,
+        "parent": null
+      },
+      {
+        "index": 0,
+        "subIndex": 0,
+        "description": "Objects",
+        "root": "data\\items",
+        "subdirs": [],
+        "files": [],
+        "settings": null,
+        "tileset": 0,
+        "dat": null,
+        "parent": null
+      },
+      {
+        "index": 0,
+        "subIndex": 0,
+        "description": "Objects",
+        "root": "data\\sunduk",
+        "subdirs": [],
+        "files": [],
+        "settings": null,
+        "tileset": 0,
+        "dat": null,
+        "parent": null
+      },
+      {
+        "index": 0,
+        "subIndex": 0,
+        "description": "NPCs",
+        "root": "person",
+        "subdirs": [],
+        "files": [],
+        "settings": null,
+        "tileset": 1,
+        "dat": 3,
+        "parent": null
+      },
+      {
+        "index": 0,
+        "subIndex": 0,
+        "parent": 1,
+        "description": "NPCs",
+        "root": "shadow",
+        "files": [],
+        "subdirs": [],
+        "settings": null,
+        "tileset": 0,
+        "dat": null
+      }
+    ],
+    "datFiles": ["lowpicture.dat", "picture.dat", "trees.dat", "people.dat"],
+    "tilesets": [
+      {
+        "name": "",
+        "classname": "environment",
+        "sprite": null,
+        "transparency": true,
+        "animation": false,
+        "naming": 3
+      },
+      {
+        "name": "",
+        "classname": "person",
+        "sprite": null,
+        "transparency": true,
+        "animation": true,
+        "naming": 3
+      }
+    ]
+  },
+  "male.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": [],
+    "datFiles": [],
+    "imageFiles": [{
+      "index": 0,
+      "subIndex": 0,
+      "root": "male",
+      "subdirs": [],
+      "files": [],
+      "description": ".",
+      "settings": null,
+      "tileset": 0,
+      "dat": null,
+      "parent": null
+    }],
+    "tilesets": [{
+      "name": "",
+      "classname": "person",
+      "sprite": {
+        "fps": 24,          
+        "width": 0,
+        "height": 0,
+        "count": [8]
+      },
+      "transparency": true,
+      "animation": true,
+      "naming": 3
+    }]
+  },
+  "female.paxx.nrm": {
+    "currentImageFilesIndex": 0,
+    "settingsFiles": [],
+    "datFiles": [],
+    "imageFiles": [{
+      "index": 0,
+      "subIndex": 0,
+      "root": "female",
+      "subdirs": [],
+      "files": [],
+      "description": ".",
+      "settings": null,
+      "tileset": 0,
+      "dat": null,
+      "parent": null
+    }],
+    "tilesets": [{
+      "name": "",
+      "classname": "person",
+      "sprite": {
+        "fps": 24,          
+        "width": 0,
+        "height": 0,
+        "count": [8] 
+      },
+      "transparency": true,
+      "animation": true,
+      "naming": 3
+    }]
+  }
+}
