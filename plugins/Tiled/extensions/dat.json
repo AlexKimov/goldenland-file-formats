@@ -1,0 +1,23 @@
+{
+  "anim.dat": {
+    "names": ["name", "size"]
+  },
+  "textur.dat": {
+    "names": ["name", "size", "snd"]
+  },
+  "lowpicture.dat": {
+    "names": ["name", "size"]
+  },  
+  "picture.dat": {
+    "names": ["name", "size"]
+  },    
+  "trees.dat": {
+    "names.dat": ["name", "size"]    
+  },  
+  "people.dat": {
+    "names": ["name", "snd", "id"]
+  },  
+  "loc.dat": {
+    "names": ["loc", "num"]
+  }
+}

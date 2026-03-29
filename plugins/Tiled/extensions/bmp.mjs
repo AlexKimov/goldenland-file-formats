@@ -107,11 +107,16 @@ function concatBuffersToBuffer (buffers) {
     return result.buffer; 
 }
 
-BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, isPerson = true) {
+BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, isPerson = false) {
     let dataView = new DataView(data);
     const bfOffBits = dataView.getUint32(10, IS_LITTLE_ENDIAN); 
     const bfWidth = dataView.getUint32(18, IS_LITTLE_ENDIAN); 
     const bfHeight = dataView.getUint32(22, IS_LITTLE_ENDIAN);
+    
+    if ((bfHeight / 2) < bfWidth) {
+        return [];
+        }
+    
     let offset = bfOffBits;
     let bmpHeader = data.slice(0, offset);
     
@@ -180,7 +185,7 @@ BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, i
             offset += size;
         }                           
     }
-
+    
     return tiles;     
 } 
     

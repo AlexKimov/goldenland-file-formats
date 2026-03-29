@@ -22,7 +22,7 @@
         "fps": 24,
         "width": 112,
         "height": 64,
-        "count": []        
+        "count": [0]        
       },
       "transparency": true,
       "animation": true,
@@ -77,7 +77,7 @@
         "fps": 24,          
         "width": 0,
         "height": 0,
-        "count": []        
+        "count": [0]        
       },
       "transparency": false,
       "animation": true,

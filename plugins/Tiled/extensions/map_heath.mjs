@@ -5,10 +5,14 @@ import MagicFileParser from 'magic.mjs';
 import DatFileParser from 'dat.mjs';
 import NRM8bitImage from 'nrm.mjs';
 import NRMFileImageParser from 'nrm.mjs';
+import MAPFileParser from 'map.mjs';
 //
 const SPRITES_FILE_FORMAT = 'bmp'
 const IS_LITTLE_ENDIAN = true
 const scriptPath = __filename
+const TILE_WIDTH = 112 
+const TILE_HEIGHT = 64
+const GAME_DIR = "F:\\Games\\1\\"
 
 function getAnimatedSpriteDimensions(dimensions, spriteNum = 0) {
     if (dimensions[0] > (dimensions[1] / 2)) {
@@ -83,9 +87,14 @@ function addImageTileToTileset(data, tileset, name, transparency){
     tile.setImage(img);
     const parts = name.split("\\");
     
-    const filename = name.split("\\")[parts.length - 1];
-    const objectName = name.split("\\")[parts.length - 2];
-    tile.setProperty("Name", `${objectName}_${filename}` );    
+    if (parts.length > 0) {
+        const filename = name.split("\\")[parts.length - 1];
+        const objectName = name.split("\\")[parts.length - 2];
+        tile.setProperty("Filename", `${filename}` );    
+        tile.setProperty("ObjectName", `${objectName}` );    
+    } else
+        tile.setProperty("Filename", `${name}` );
+    
     return tile;    
 }
 
@@ -93,15 +102,21 @@ function addImageTilesToTileset(imageTiles, tileset, width, height, spriteNum = 
     let tiles = []; 
 
     const files = BMP.splitImageByTileDimensions(imageTiles.data, width, height, spriteNum, isPerson);
-    for (const file of files) {
-        const tile = addImageTileToTileset(file, tileset, imageTiles.filepath, transparency);
-        tiles.push(tile);                
-    }     
     
-    if (isPerson)
-        animateTiles(tiles, true, fps);
-    else    
-        animateTiles(tiles, false, fps);
+    if (files.length > 0) {
+        for (const file of files) {
+            const tile = addImageTileToTileset(file, tileset, imageTiles.filepath, transparency);
+            tiles.push(tile);                
+        }     
+
+        if (isPerson)
+            animateTiles(tiles, true, fps);
+        else    
+            animateTiles(tiles, false, fps);
+    } else {
+      
+        addImageTileToTileset(imageTiles.data, tileset, imageTiles.filepath, transparency);
+    }
 }
 
 function createArchiveTileset(archive, settings) {
@@ -124,7 +139,7 @@ function createArchiveTileset(archive, settings) {
             imageFiles = ifiles.files[ifiles.subIndex];
         for (const file of imageFiles) {
             const img = archive.getImageByIndex(file.index);
-            
+
             if (!sets.animation)            
                 addImageTileToTileset(img.data, tileset, img.filepath, sets.transparency);
             else { 
@@ -139,9 +154,10 @@ function createArchiveTileset(archive, settings) {
                 let fps = 24;
                 if (sets.sprite !== null) {
                     spriteNum = sets.sprite.count[file.spriteIndex];
-                    isPerson = (sets.sprite.count.length === 1);
+                    isPerson = (sets.sprite.count.length > 1);
                     fps = sets.sprite.fps;
                 }
+
                 addImageTilesToTileset(img, tileset, width, height, spriteNum, isPerson, fps, sets.transparency);
             } 
         }       
@@ -336,6 +352,8 @@ let heathTilesetFormat = {
             } else {
                 tileHeightEdit.enabled = false;
                 tileWidthEdit.enabled = false;                
+                countEdit.enabled = false;                
+                fpsEdit.enabled = false;                
             }
             
         } else {
@@ -408,21 +426,22 @@ let heathTilesetFormat = {
         });
         
         filesComboBox.currentIndexChanged.connect((value)=>{
-             
-            if (filesComboBox.currentIndex >= 1) {
                 const indx = settings.currentImageFilesIndex - 1;
                 settings.imageFiles[indx].index = filesComboBox.currentIndex;
                 
-                if (settings.tilesets[indx].sprite !== null && settings.tilesets[indx].sprite.length !== 0) { 
-                    const imageFiles = settings.imageFiles[indx];
-                    const tilesetIndex = imageFiles.tileset;
-                    const findex = imageFiles.index;
-                    const subIndex = imageFiles.subIndex;
-
-                    const spriteIndex = imageFiles.files[subIndex][findex].spriteIndex;
-                    countEdit.value = settings.tilesets[tilesetIndex].sprite.count[spriteIndex];
+                if (settings.imageFiles[indx].index > 0) {
+                    const index = settings.imageFiles[indx].tileset;
+                    if (settings.tilesets[index].sprite !== null) { 
+                        const imageFiles = settings.imageFiles[indx];
+                        const tilesetIndex = imageFiles.tileset;
+                        const findex = imageFiles.index - 1;
+                        const subIndex = imageFiles.subIndex;
+                        
+                        const spriteIndex = imageFiles.files[subIndex][findex].spriteIndex;
+                        countEdit.value =settings.tilesets[index].sprite.count[spriteIndex];
+                    }
                 }
-            };
+
        });
 
         dirsComboBox.addItems([...folders]);
@@ -441,10 +460,13 @@ let heathTilesetFormat = {
                 settings.tilesets[idx].name = tilesetNameInput.text;
                 settings.tilesets[idx].transparency = transparencyCheckBox.checked;
                 settings.tilesets[idx].animation = animateCheckBox.checked;
-                settings.tilesets[idx].sprite.count[spriteIndex] = countEdit.value;
-                // settings.tilesets[idx].sprite.height = tileHeightEdit.value;
-                // settings.tilesets[idx].sprite.width = tileWidthEdit.value;
-                settings.tilesets[idx].sprite.fps = fpsEdit.value;
+                
+                if (settings.tilesets[idx].sprite !== null) {
+                    settings.tilesets[idx].sprite.count[spriteIndex] = countEdit.value;
+                    // settings.tilesets[idx].sprite.height = tileHeightEdit.value;
+                    // settings.tilesets[idx].sprite.width = tileWidthEdit.value;
+                    settings.tilesets[idx].sprite.fps = fpsEdit.value;
+                }
                 
                 if (settings.datFiles.length !== 0)
                     settings.datFiles[0] = [datNameInput.text]; 
@@ -464,50 +486,105 @@ let heathTilesetFormat = {
         }      
     }
 }
+
+function getTilenamesFromMapFile(mapFile, datFile) {
+    const filenames = new Set();
+    for (const tile of mapFile.map.backgroundTiles) { 
+        if  (tile.groupIndex >= 5000) {
+            
+            
+        } else {    
+            const name = datFile.groups[tile.groupIndex]["name"];
+            filenames.add(`${name}_${tile.spriteIndex + 1}.bmp`);
+        }   
+    }
+       
+    return filenames;
+}
+
+
+function createTilesetFromImages(nrmFile, tilenames) {
+    const tileset = createTileset(nrmFile.filename, "background");
+
+    for (const filename of tilenames) {
+        const img = nrmFile.getImageByName(filename, false);
+
+        addImageTileToTileset(img.data, tileset, filename, true)
+     }        
+    return tileset;
+}
+
+function createMapLayer(name, map) {
+    let layer = new TileLayer();
+    layer.width = map.width;
+    layer.height = map.height;
+    layer.name = name;        
+    map.addLayer(layer);
+    
+    return layer;    
+}
   
 let heathMapFormat = {
     name: "Heath: The Unchosen Path map format",
     extension: "map",
-    read: function(fileName) {
+    read: function(filename) {
         const mapFile = new MAPFileParser(filename);
         mapFile.read();
- 
+        mapFile.close();
+        
         let map = new TileMap();  
-        map.setSize(mapCollSpriteNum, mapRowSpriteNum);         
+        map.setSize(mapFile.map.rowSpriteNum, mapFile.map.collSpriteNum);         
         map.setTileSize(TILE_WIDTH, TILE_HEIGHT);
-        map.orientation = TileMap.Staggered;    
+        map.orientation = TileMap.Staggered;         
 
-        let ofs = 36;
+        const backgroundSpritesFile = new NRMFileImageParser(GAME_DIR + "textur.paxx.nrm");
+        backgroundSpritesFile.read();
         
-        let layer = new TileLayer();
-        layer.width = map.width;
-        layer.height = map.height;
-        layer.name = "Background";        
-        let layerEdit = layer.edit(); 
+        const jsonFilename = getFilepath(scriptPath) + "dat.json";         
+        let properties = loadJSONFromFile(jsonFilename);
+
+        const backgroundSpritesDatFile = new DatFileParser(GAME_DIR + "Data\\textur.dat", properties);
+        backgroundSpritesDatFile.read();
         
-        // let backGroundTilesetData = loadTilesetFromArchive(BACKGROUND_SPRITES_NRM_FILE_PATH, SPRITES_FROM_MULTIPLE_IMAGES);
-        // let bgTileset = backGroundTilesetData[0][0];
-        // let backGroundSpriteGrArray = backGroundTilesetData[1];
+        const tilenames = getTilenamesFromMapFile(mapFile, backgroundSpritesDatFile);
 
-        // const animatedBackGroundTilesetData = loadTilesetFromArchive(ANIMATED_BACKGROUND_SPRITES_NRM_FILE_PATH, SPRITES_FROM_ONE_IMAGE);
-        // const anTilesets = animatedBackGroundTilesetData[0];
-
-        // const picturesTilesetData = loadTilesetFromArchive(PICTURES_NRM_FILE_PATH, SPRITES_FROM_MULTIPLE_IMAGES, ['picture', 'lowpicture']);
-        // const pictureTilesets = picturesTilesetData[0];        
-        // let pictureGrArray = backGroundTilesetData[1];        
-
-        // map.addTileset(bgTileset); 
-        // animatedBackGroundTilesetData[0].forEach((value, index) => {                       
-            // map.addTileset(value); 
-        // });           
-   
+        const tileset = createTilesetFromImages(backgroundSpritesFile, tilenames);
         
-                      
-       
-        layerEdit.apply();
-        map.addLayer(layer);
+        map.addTileset(tileset);
+        
+        const layer = createMapLayer("Background", map);
+        let layerEdit = layer.edit();
+        
+        let index = 0;
+        const names = {};
+        for (const key of tilenames) {
+            names[key] = index++;
+        }
+ 
+        let coll = 1, row = 1;
+        
+        for (const tile of mapFile.map.backgroundTiles) {  
+            if (tile.groupIndex < 5000) {
+                const name = backgroundSpritesDatFile.groups[tile.groupIndex]["name"];
+                
+                const index = names[`${name}_${tile.spriteIndex + 1}.bmp`];
+                
 
-        mapFile.close();       
+                layerEdit.setTile(coll - 1, row - 1, tileset.tiles[index]);
+            } else {
+                
+            }
+            
+            if (coll % (mapFile.map.rowSpriteNum) === 0) {
+                coll = 0;
+                row++;
+            }    
+            
+            coll++;                   
+        }
+             
+        layerEdit.apply();     
+               
         return map;        
     }
 }             

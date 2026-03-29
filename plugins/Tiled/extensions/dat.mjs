@@ -1,32 +1,46 @@
+import { Helpers } from 'utils.mjs';
+        
 class DatFileParser {
-    constructor(path) {
-        this.groups = new Map();
-        this.reader = new TextFile(path);        
+    constructor(path, properties) {
+        this.groups = null;
+        this.reader = new TextFile(path);
+        const filename = Helpers.getFilenameFromPath(path);
+        
+        this.properties = properties[filename];        
     }
 
     read() { 
-        let line = this.reader.readLine();
-        if (line.includes("nGroup")) {
-            let num = getValueFromStr(line);
+        const lines = this.reader.readAll().split('\n');
+        let i = 0;
+        while (i < lines.length) {
+            const line = lines[i];
+            if (line !== "") {
+                if (line.includes("nGroup")) {
+                    const num = parseInt(Helpers.getValueFromStr(line));  
+                    
+                    this.groups = Array.from(Array(num), () => { 
+                        return {}; 
+                    })
 
+                    i += 1; 
+                } else {           
+                    for (const property of this.properties.names) { 
+                        const line = lines[i];
+                        const value = Helpers.getValueFromStr(line);
+                        const index = Helpers.getIndexFromStr(line);
+                            
+                        this.groups[index][property] = value;
+                        i += 1;                          
+                    } 
+                                   
+                }                
+            } else
+                i += 1;         
         }
-            
-        for (let i = 0; i < num; i++) {
-            line = this.reader.readLine();
-            
-            if (line.includes("name")) {
-                let name = getValueFromStr(line);
-            }
-            
-            line = this.reader.readLine();
-            if (line.includes("size"))  {
-                let size = getValueFromStr(line);
-            }
-            let index = getIndexFromStr(line);  
-            
-            this.groups.set(name.toLowerCase(), [index, size]);
-        }           
+           
     }
 }
+
+
 
 export default DatFileParser;

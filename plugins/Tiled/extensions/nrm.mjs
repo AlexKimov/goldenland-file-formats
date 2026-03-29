@@ -128,11 +128,19 @@ class NRMFileImageParser {
         return img;
     }     
     
-    getImageByName(name) {
+    getImageByName(name, includes = true) {
         for (let img of this.bmpImages) {
-            if (img.filepath.includes(name)) {
-                img.data = this._getImageDataFromBuffer(img);
-                return img;              
+            if (includes) {
+                if (img.filepath.includes(name)) {
+                    img.data = this._getImageDataFromBuffer(img);
+                    return img;
+                }                    
+            } else {
+                const filename = Helpers.getFilenameFromPath(img.filepath);
+                if (filename === name) {
+                    img.data = this._getImageDataFromBuffer(img);
+                    return img;     
+                }                       
             }
         }
         

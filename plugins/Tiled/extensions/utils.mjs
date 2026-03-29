@@ -65,6 +65,6 @@ Helpers.getValueFromStr = function (str, delimetr = ":", pos = 1) {
 }
 
 Helpers.getIndexFromStr = function (str) {
-    let val = getValueFromStr(str, 0);
-    return parseInt(str.split("_")[1].trim());
+    const [name, value] = str.split(":");
+    return parseInt(name.split("_")[1].trim());
 }
