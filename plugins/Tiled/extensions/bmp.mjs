@@ -3,7 +3,7 @@ export let BMP = {};
 const IS_LITTLE_ENDIAN = true
 const BMP_HEADER_SIZE = 138
 const BMP_HEADER_SIZE1 = 54
-const PERSON_IMAGE_SPRITE_NUM = 8;
+const PERSON_IMAGE_SPRITE_FRAMES_NUM = 8;
 
 function concatArrayBuffers (buffer1, buffer2) {
     let tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
@@ -107,15 +107,11 @@ function concatBuffersToBuffer (buffers) {
     return result.buffer; 
 }
 
-BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, isPerson = false) {
+BMP.splitImage = function (data, spriteNum = 0) {
     let dataView = new DataView(data);
     const bfOffBits = dataView.getUint32(10, IS_LITTLE_ENDIAN); 
     const bfWidth = dataView.getUint32(18, IS_LITTLE_ENDIAN); 
     const bfHeight = dataView.getUint32(22, IS_LITTLE_ENDIAN);
-    
-    if ((bfHeight / 2) < bfWidth) {
-        return [];
-        }
     
     let offset = bfOffBits;
     let bmpHeader = data.slice(0, offset);
@@ -123,10 +119,10 @@ BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, i
     let tileNum;
     let tiles = [];
    
-    if  (isPerson) {
-        tileNum = spriteNum;
-        const width = bfWidth / tileNum; 
-        const height = bfHeight / tileNum;
+    if  (spriteNum === 0) {
+        spriteNum = PERSON_IMAGE_SPRITE_FRAMES_NUM;
+        const width = bfWidth / spriteNum; 
+        const height = bfHeight / spriteNum;
                   
         const rowLength = (bfWidth + (4 - (bfWidth % 4)) % 4);
         const rowsLength = rowLength * height;
@@ -142,11 +138,11 @@ BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, i
         dataView.setUint32(22, height, IS_LITTLE_ENDIAN);            
         dataView.setUint32(34, tileSize, IS_LITTLE_ENDIAN); 
         
-        for (let k = 1; k <= tileNum; k++) {
+        for (let k = 1; k <= spriteNum; k++) {
             const rows = data.slice(offset, offset + rowsLength);   
             
             tileOffset = offset;
-            for (let z = 0; z < tileNum; z++) {
+            for (let z = 0; z < spriteNum; z++) {
                 let dataBuffers = [bmpHeader];                    
                 for (let i = 0; i < height; i++) {
                     const rowData = data.slice(tileOffset + i * rowLength, tileOffset + width + i * rowLength);
@@ -163,13 +159,7 @@ BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, i
             offset += rowsLength;
         }         
     } else {
-        // spriteNum += 1;
-        let ImageHeight = height;
-        if (spriteNum) {
-            tileNum = spriteNum;
-            ImageHeight = bfHeight / spriteNum;
-        } else
-            tileNum = bfHeight / height;
+        const ImageHeight = bfHeight / spriteNum;
         
         const size = (bfWidth + (4 - (bfWidth % 4)) % 4) * ImageHeight;
                
@@ -178,7 +168,7 @@ BMP.splitImageByTileDimensions = function (data, width, height, spriteNum = 0, i
         dataView.setUint32(22, ImageHeight, IS_LITTLE_ENDIAN);            
         dataView.setUint32(34, size, IS_LITTLE_ENDIAN);            
         
-        for (let i = 1; i <= tileNum; i++) {       
+        for (let i = 1; i <= spriteNum; i++) {       
             const tileData = data.slice(offset, offset + size);                    
             tiles.push(concatArrayBuffers(bmpHeader, tileData));
                 

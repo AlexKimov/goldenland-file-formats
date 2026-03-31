@@ -40,16 +40,16 @@ function createTileset(filename, classname = "") {
     return tileset;
 }
 
-function animateTiles(tiles, splitBySpriteNum = 0, fps = 24) {
+function animateTiles(tiles, splitBySpriteNum = 0, fps) {
     let msec = Math.round(1000 / fps);  
-    tiled.log(msec);
+
     if (splitBySpriteNum > 0) {
         let animTile = tiles[splitBySpriteNum - 1]; 
         let indx = 0;
         let frames = [];  
         
         tiles.forEach((value, index) => {           
-            frames.push({tileId: index, duration: 50});
+            frames.push({tileId: index, duration: msec});
             value.setProperty("Index", `${indx}` );
                         
             indx += 1;
@@ -67,7 +67,7 @@ function animateTiles(tiles, splitBySpriteNum = 0, fps = 24) {
         const frames = [];
         
         tiles.forEach((value, index) => {          
-            frames.push({tileId: (tiles.length - 1 - index), duration: duration});
+            frames.push({tileId: (tiles.length - 1 - index), duration: msec});
             value.setProperty("Index", `${index}` );
         });
         
@@ -100,24 +100,18 @@ function addImageTileToTileset(data, tileset, name, transparency){
     return tile;    
 }
 
-function addImageTilesToTileset(imageTiles, tileset, width, height, spriteNum = 0, isPerson, fps, transparency) {
-    const tiles = []; 
-
-    const files = BMP.splitImageByTileDimensions(imageTiles.data, width, height, spriteNum, isPerson);
+function addImageTilesToTileset(imageFile, tileset, name, spriteNum, transparency = true) {
+    const files = BMP.splitImage(imageFile.data, spriteNum);
     
     if (files.length > 0) {
         for (const file of files) {
-            const tile = addImageTileToTileset(file, tileset, imageTiles.filepath, transparency);
-            tiles.push(tile);                
+            const tile = addImageTileToTileset(file, tileset, name, transparency);                
         }     
-
-        // if (isPerson)
-            // animateTiles(tiles, true, fps);
-        // else    
-            // animateTiles(tiles, false, fps);
     } else {     
-        addImageTileToTileset(imageTiles.data, tileset, imageTiles.filepath, transparency);
+        addImageTileToTileset(imageFile.data, tileset, name, transparency);
     }
+        
+    animateTiles(tileset.tiles, spriteNum, 24);
 }
 
 function createArchiveTileset(archive, settings) {
@@ -488,85 +482,86 @@ let heathTilesetFormat = {
     }
 }
 
-function getTilenamesFromMapFile(mapFile, datFile, animated, startIndex = 0, endIndex =  5000) {
-    const filenames = new Set();
+function getTileDataFromMapFileTiles(mapFile, datFile, isAnimated, startIndex) {
     let groupIndex = 0;
+    let index = -1;
+    let filename = "";
+    let tilesData = {};
+    const endIndex = startIndex + datFile.groups.length  + 1;
+    
     for (const tile of mapFile.map.backgroundTiles) { 
         groupIndex = tile.groupIndex;
-        if  ( groupIndex >= startIndex &&  groupIndex < endIndex) {
-            if (startIndex > 0)
-                groupIndex = groupIndex % startIndex - 1;            
+ 
+        if ((groupIndex >= startIndex) && (groupIndex < endIndex)) {
+            if (startIndex > 0)        
+                groupIndex = groupIndex % startIndex - 1; 
+        
             const name = datFile.groups[groupIndex]["name"];
-            let filename = `${name}_${tile.spriteIndex + 1}.bmp`;
-            if (animated)
-                filename = name.toLowerCase();
-            const size = parseInt(datFile.groups[groupIndex]["size"]);
-            filenames.add({name:filename, size:size});
-        }   
+            filename = `${name}_${tile.spriteIndex + 1}.bmp`;
+            if (isAnimated)
+                filename = name.toLowerCase(); 
+            
+            if (!tilesData.hasOwnProperty(filename)) {
+                const size = parseInt(datFile.groups[groupIndex]["size"]);
+                if (isAnimated)
+                    index += size;
+                else
+                    index += 1;
+
+                tilesData[filename] = {size: size, index: index};
+                if (datFile.groups[groupIndex].length > 2) {
+                    tilesData[filename]["snd"] = parseInt(datFile.groups[groupIndex]["snd"])            
+                }         
+            }  
+        }
     }
-       
-    return filenames;
+  
+    return tilesData;
 }
 
 
-function createTilesetFromImages(nrmFile, tilenames, width, height, animated) {       
+function createTilesetFromImages(nrmFile, tilesData, isAnimated) {       
     const tileset = createTileset(nrmFile.filename, "background");
 
-    let isIncludes = (animated) ? true : false;
-    for (const group of tilenames) {
-        const img = nrmFile.getImageByName(group.name, isIncludes); 
+    for (const name in tilesData) {
+        const img = nrmFile.getImageByName(name, isAnimated); 
          
-        if (!animated)
-            addImageTileToTileset(img.data, tileset, group.name, true);
-        else {  
-       
-            addImageTilesToTileset(img, tileset, width, height, 0, false, 24, true);
+        if (!isAnimated) {
+            addImageTileToTileset(img.data, tileset, name, true);
+        } else {        
+            addImageTilesToTileset(img, tileset, name, tilesData[name].size);
         };
     } 
-    
-             
+                
     return tileset;
 }
 
-function createTilesetFromMapTiles(map, mapLayer, mapFile, nrmFile, datFile, width, height, animated, startIndex = 0, endIndex = 0) {
-    if (endIndex === 0)
-        endIndex = startIndex + 100;
-    const tilenames = getTilenamesFromMapFile(mapFile, datFile, animated, startIndex, endIndex);
-    let tileset = createTilesetFromImages(nrmFile, tilenames, width, height, animated);
-    
-    if (animated) {
-        animateTiles(tileset.tiles, 25, false);                 
-    }
+function createTilesetFromMapTiles(map, backgroundmapLayer, mapFile, nrmFile, datFile, isAnimated, startIndex = 0) {
+    // get tiles which will be loaded for current map
+    const tilesData = getTileDataFromMapFileTiles(mapFile, datFile, isAnimated, startIndex);
+    let tileset = createTilesetFromImages(nrmFile, tilesData, isAnimated);
     
     map.addTileset(tileset);
     
-    let layerEdit = mapLayer.edit();
-    let index = -1;
-    
-    const names = {};
-    for (const key of tilenames) {
-        if (animated)  
-            index += key.size;
-        else
-            index += 1;
-        names[key.name] = index;
-    }
+    let layerEdit = backgroundmapLayer.edit();
 
-    let coll = 1, row = 1;
+    let coll = 1, row = 0;
     
     let groupIndex = 0;
+    const endIndex = startIndex + datFile.groups.length + 1;
     for (const tile of mapFile.map.backgroundTiles) {  
-        if (tile.groupIndex >= startIndex && tile.groupIndex < endIndex) {
-            groupIndex = tile.groupIndex;
-            if (startIndex > 0)
-                groupIndex = groupIndex % startIndex - 1;
+        groupIndex = tile.groupIndex;
+
+        if (groupIndex >= startIndex && groupIndex < endIndex) { 
+            if (startIndex > 0)        
+                groupIndex = groupIndex % startIndex - 1;  
+        
             const name = datFile.groups[groupIndex]["name"];
             let filename = `${name}_${tile.spriteIndex + 1}.bmp`;
-            if (animated)
-                filename = name.toLowerCase();
-                         
-            const index = names[filename];
-            layerEdit.setTile(coll - 1, row - 1, tileset.tiles[index]);
+            if (isAnimated)
+                filename = name.toLowerCase();            
+
+            layerEdit.setTile(coll - 1, row, tileset.tiles[tilesData[filename].index]);
         } 
         
         if (coll % (mapFile.map.rowSpriteNum) === 0) {
@@ -574,14 +569,13 @@ function createTilesetFromMapTiles(map, mapLayer, mapFile, nrmFile, datFile, wid
             row++;
         }    
         
-        coll++;                   
+        coll++;        
     }
-   
-         
+     
     layerEdit.apply();     
 }
 
-function createMapLayer(name, map) {
+function createbackgroundmapLayer(name, map) {
     let layer = new TileLayer();
     layer.width = map.width;
     layer.height = map.height;
@@ -604,7 +598,7 @@ let heathMapFormat = {
         map.setTileSize(TILE_WIDTH, TILE_HEIGHT);
         map.orientation = TileMap.Staggered;         
         
-        const mapLayer = createMapLayer("Background", map);
+        const backgroundmapLayer = createbackgroundmapLayer("Background", map);
         
         const jsonFilename = getFilepath(scriptPath) + "dat.json";         
         let properties = loadJSONFromFile(jsonFilename);
@@ -613,15 +607,21 @@ let heathMapFormat = {
         backgroundSpritesFile.read();        
         const backgroundSpritesDatFile = new DatFileParser(GAME_DIR + "Data\\textur.dat", properties);
         backgroundSpritesDatFile.read();     
-        createTilesetFromMapTiles(map, mapLayer, mapFile, backgroundSpritesFile, backgroundSpritesDatFile, TILE_WIDTH, TILE_HEIGHT, false, 0, 0);
+        createTilesetFromMapTiles(
+            map, backgroundmapLayer, mapFile, backgroundSpritesFile, 
+            backgroundSpritesDatFile, false);
              
         // animated background sprites
         const backgroundAnimatedSpritesFile = new NRMFileImageParser(GAME_DIR + "anim.paxx.nrm");
         backgroundAnimatedSpritesFile.read();
         const backgroundAnimatedSpritesDatFile = new DatFileParser(GAME_DIR + "Data\\anim.dat", properties);
         backgroundAnimatedSpritesDatFile.read();  
-        createTilesetFromMapTiles(map, mapLayer, mapFile, backgroundAnimatedSpritesFile, backgroundAnimatedSpritesDatFile, TILE_WIDTH, TILE_HEIGHT, true, 5000);
-             
+        createTilesetFromMapTiles(
+            map, backgroundmapLayer, mapFile, backgroundAnimatedSpritesFile, 
+            backgroundAnimatedSpritesDatFile, true, 5000);
+
+        // const backgroundmapLayer = createbackgroundmapLayer("Pictures", map);
+        
         return map;        
     }
 }             
